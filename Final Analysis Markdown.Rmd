@@ -1,0 +1,394 @@
+---
+title: "Google Data Analytics Capstone"
+author: "Abigail Cabadin"
+date: "2024-10-31"
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r setup, include=FALSE}
+# Set CRAN mirror
+options(repos = c(CRAN = "https://cran.r-project.org"))
+```
+## INTRODUCTION
+
+Welcome to the Cyclistic bike-share analysis case study! In this case study, I work for a fictional company, Cyclistic, along with some key team meambers. In order to answer the business questions, follow the steps of the data analysis process: Ask, Prepare, Process, Analyze, Share, and Act.
+
+### SCENARIO
+I am a junior data analyst working on the marketing analyst team at Cyclistic, a bike-share company in Chicago. The director of marketing believes the company's future success depends on maximizing the number of annual memberships. Therefore my team wants to understand how casual riders and anuual members use Cyclistic bikes differently. 
+
+### ASK
+
+My Role: I am a Junior Data Analyst working on the marketing analyst team at Cyclistic. 
+Overall Goal: Design marketing strategies aimed at converting casual riders into annual members.
+Business Question: How do annual members and casual riders use Cyclistic bikes differently?
+
+#### Load Necessary Packages
+```{r, include=FALSE}
+install.packages("tidyverse")
+install.packages("lubridate")
+install.packages("dplyr")
+install.packages("hms")
+install.packages("data.table")
+install.packages("ggplot2")
+```
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(lubridate)
+library(dplyr)
+library(hms)
+library(data.table)
+library(ggplot2)
+```
+
+
+#### Set working directory
+```{r set the directory}
+setwd("C:/Users/abiga/OneDrive/Documents/SELF-STUDY FILES/Data Analytics Files/Google Data Analytics/Case Study/RAW .csv file")
+```
+#### Load .csv file for analysis
+ I already cleaned and process the data prior to the analysis. 
+```{r load .csv file for analysis}
+cyclistic_df_analysis <-fread("C:/Users/abiga/OneDrive/Documents/SELF-STUDY FILES/Data Analytics Files/Google Data Analytics/Case Study/RAW .csv file/cyclistic_data_rmarkdown.csv")
+```
+
+## Analysis
+
+### Summary Statistics 
+Calculate summary statistics for key variables to get an overview of the differences.
+```{r}
+summary_stats <- cyclistic_df_analysis %>%
+  group_by(member_casual) %>%
+  summarise(
+    avg_ride_duration = mean(ride_duration, na.rm = TRUE),
+    median_ride_duration = median(ride_duration, na.rm = TRUE),
+    total_rides = n()
+  )
+print(summary_stats)
+```
+#### Interpretation:
+Casual riders tend to take longer rides on average compared to annual members. This might indicate that casual riders use the bikes more for leisure or longer trips. Meanwhile, Annual Members have a higher total number of rides, suggesting they use the bikes more frequently, likely for shorter, more routine trips such as commuting. The median ride duration being lower than the average for both groups suggest that there are some longer rides that are skewing the average upwards.
+
+### Ride Duration Analysis
+Compare the ride durations between annual members and casual riders.
+```{r}
+avg_ride_duration <- cyclistic_df_analysis %>%
+  group_by(member_casual) %>%
+  summarise(avg_duration = mean(ride_duration, na.rm = TRUE))
+
+ggplot(avg_ride_duration, aes(x = member_casual, y = avg_duration, fill = member_casual)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Ride Duration", x = "User Type", y = "Average Duration (minutes)") +
+  theme_minimal()
+```
+
+#### Interpretation:
+
+The taller bar for casual riders indicates that they generally have longer ride durations. This could be due to casual riders using the bikes for leisure activities, sightseeing, or longer trips. While Annual Members has the shorter bar which suggests that their rides are typically shorter, likely because they use the bikes for commuting or quick errands.
+
+### Usage by day of the week
+```{r}
+usage_by_day <- cyclistic_df_analysis %>%
+  group_by(day_of_week, member_casual) %>%
+  summarise(total_rides = n())
+
+ggplot(usage_by_day, aes(x = day_of_week, y = total_rides, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Usage by Day of the Week", x = "Day of the Week", y = "Total Rides")
+```
+
+#### Interpretation:
+Weekend usage: Both casual and members show increased usage on Saturday and Sunday. Casual riders haver particularly high number of rides on weekends, indicating leisure or recreational use.
+
+Weekday patterns: Annual members have more consistent usage pattern throughout the weekdays, with a slight dip on Friday. This suggests that annual members likely use the bikes for commuting or regular daily activities. Casual riders have lower usage during weekdays compared to weekends. This pattern supports the idea that casual riders use the bikes more for occasional trips rather than daily commuting. 
+
+### Hourly Usage Patterns
+Examine the hourly usage patterns to see when each group rides the most.
+```{r}
+# Group data by hour and member type
+hourly_usage <- cyclistic_df_analysis %>%
+  group_by(hour, member_casual) %>%
+  summarise(total_rides = n(), .groups = 'drop')
+
+# Plot the hourly usage patterns
+ggplot(hourly_usage, aes(x = hour, y = total_rides, color = member_casual)) +
+  geom_line(size = 1) +
+  labs(title = "Hourly Usage Patterns", x = "Hour of the Day", y = "Total Rides") +
+  theme_minimal() +
+  scale_x_continuous(breaks = 0:24)
+```
+
+#### Intepretation: 
+Morning Peak:
+Both casual riders and annual members show increased activity around 7-9 AM, likely corresponding to morning commute times.
+Evening Peak:
+There is another peak around 5-7 PM, which aligns with evening commute times. Notably, the number of rides for annual members surpasses casual riders during this period.
+Midday and Night:
+Casual riders have relatively higher usage during midday and late evening compared to annual members, indicating more leisure or non-commute trips.
+
+
+### Usage by Time of Day
+```{r}
+# Group data by time of day and member type
+time_of_day_usage <- cyclistic_df_analysis %>%
+  group_by(time_of_day, member_casual) %>%
+  summarise(total_rides = n(), .groups = 'drop')
+
+# Plot the usage patterns by time of day
+ggplot(time_of_day_usage, aes(x = time_of_day, y = total_rides, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Usage by Time of Day", x = "Time of Day", y = "Total Rides") +
+  theme_minimal()
+```
+#### Interpretation:
+Afternoon:
+Casual Riders: The highest number of rides occurs in the afternoon, indicating that casual riders prefer this time for their trips.
+Annual Members: Also show high usage in the afternoon, but the number of rides is lower compared to casual riders.
+Evening:
+Both casual riders and annual members have significant usage in the evening, with annual members showing a slightly higher number of rides.
+Morning:
+Usage is lower in the morning for both groups, but annual members have more rides compared to casual riders, likely due to commuting.
+Night:
+Nighttime usage is the lowest for both groups, with casual riders having slightly more rides than annual members.
+
+### Most Popular Start Stations
+Calculate the most popular start stations for both casual and members.
+```{r}
+# Most popular start stations for casual riders
+popular_start_stations_casual <- cyclistic_df_analysis %>%
+  filter(member_casual == "casual") %>%
+  count(start_station_name, sort = TRUE) %>%
+  top_n(10)
+
+# Most popular start stations for annual members
+popular_start_stations_members <- cyclistic_df_analysis %>%
+  filter(member_casual == "member") %>%
+  count(start_station_name, sort = TRUE) %>%
+  top_n(10)
+
+print(popular_start_stations_casual)
+print(popular_start_stations_members)
+
+```
+
+### Most Popular End Stations
+Similarly, calculate the most popular end stations.
+```{r}
+# Most popular end stations for casual riders
+popular_end_stations_casual <- cyclistic_df_analysis %>%
+  filter(member_casual == "casual") %>%
+  count(end_station_name, sort = TRUE) %>%
+  top_n(10)
+
+# Most popular end stations for annual members
+popular_end_stations_members <- cyclistic_df_analysis %>%
+  filter(member_casual == "member") %>%
+  count(end_station_name, sort = TRUE) %>%
+  top_n(10)
+
+print(popular_end_stations_casual)
+print(popular_end_stations_members)
+
+```
+
+#### Visualize the most popular stations to better understand the differences.
+```{r}
+# Visualization for start stations
+ggplot(popular_start_stations_casual, aes(x = reorder(start_station_name, n), y = n, fill = "casual")) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Top 10 Start Stations for Casual Riders", x = "Start Station", y = "Number of Rides") +
+  theme_minimal()
+
+ggplot(popular_start_stations_members, aes(x = reorder(start_station_name, n), y = n, fill = "member")) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Top 10 Start Stations for Annual Members", x = "Start Station", y = "Number of Rides") +
+  theme_minimal()
+
+```
+### Visualize most popular end stations
+```{r}
+# Most popular end stations for casual riders
+popular_end_stations_casual <- cyclistic_df_analysis %>%
+  filter(member_casual == "casual") %>%
+  count(end_station_name, sort = TRUE) %>%
+  top_n(10)
+
+# Most popular end stations for annual members
+popular_end_stations_members <- cyclistic_df_analysis %>%
+  filter(member_casual == "member") %>%
+  count(end_station_name, sort = TRUE) %>%
+  top_n(10)
+
+# Visualization for end stations for casual riders
+ggplot(popular_end_stations_casual, aes(x = reorder(end_station_name, n), y = n, fill = "casual")) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Top 10 End Stations for Casual Riders", x = "End Station", y = "Number of Rides") +
+  theme_minimal()
+
+# Visualization for end stations for annual members
+ggplot(popular_end_stations_members, aes(x = reorder(end_station_name, n), y = n, fill = "member")) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(title = "Top 10 End Stations for Annual Members", x = "End Station", y = "Number of Rides") +
+  theme_minimal()
+
+```
+#### Interpretation of the Charts
+1. Top 10 End Stations for Casual Riders
+Popular End Stations: The most popular end stations for casual riders include DuSable Lake Shore Dr & Monroe St, DuSable Lake Shore Dr & North Blvd, and Michigan Ave & Oak St.
+Leisure Spots: These stations are near popular tourist attractions and leisure spots, indicating that casual riders often use the bikes for sightseeing and recreational purposes.
+2. Top 10 End Stations for Annual Members
+Popular End Stations: The top end stations for annual members are Clinton St & Washington Blvd, Kingsbury St & Kinzie St, and Clinton St & Madison St.
+Commuter Hubs: These stations are located near business districts and transit hubs, suggesting that annual members primarily use the bikes for commuting and regular daily activities.
+3. Top 10 Start Stations for Casual Riders
+Popular Start Stations: The most popular start stations for casual riders are Streeter Dr & Grand Ave, DuSable Lake Shore Dr & Monroe St, and Michigan Ave & Oak St.
+Tourist Areas: Similar to the end stations, these start stations are also near tourist attractions, reinforcing the idea that casual riders use the bikes for leisure and sightseeing.
+4. Top 10 Start Stations for Annual Members
+Popular Start Stations: The top start stations for annual members include Kingsbury St & Kinzie St, Clinton St & Washington Blvd, and Clinton St & Madison St.
+Residential and Business Areas: These stations are located near residential areas and business districts, indicating that annual members use the bikes for commuting from home to work or other regular destinations.
+
+#### Relating the Charts
+Usage Patterns:
+Casual Riders: Both the start and end stations for casual riders are concentrated around tourist and leisure areas. This suggests that casual riders typically use the bikes for recreational purposes, starting and ending their rides at popular attractions.
+Annual Members: The start and end stations for annual members are located near business districts and transit hubs, indicating a pattern of commuting. Annual members likely use the bikes for daily travel between home, work, and other routine destinations.
+Strategic Insights:
+Bike Availability: Ensure a higher availability of bikes at tourist spots during weekends and holidays to cater to casual riders.
+Commuter Support: Maintain a steady supply of bikes at residential and business areas during weekdays to support the commuting needs of annual members.
+Marketing Strategies:
+Casual Riders: Promote leisure and sightseeing packages, offering discounts or special deals for rides starting or ending at popular tourist spots.
+Annual Members: Focus on convenience and reliability, highlighting the benefits of using bikes for daily commutes and offering membership incentives.
+
+### Seasonal Usage
+```{r}
+# Seasonal usage
+seasonal_usage <- cyclistic_df_analysis %>%
+  group_by(season, member_casual) %>%
+  summarise(total_rides = n())
+
+ggplot(seasonal_usage, aes(x = season, y = total_rides, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Seasonal Usage", x = "Season", y = "Total Rides")
+
+```
+
+#### Interpretation: 
+Summer Peak:
+Both casual riders and annual members have the highest number of rides in the summer.
+This indicates that summer is the most popular season for bike usage, likely due to favorable weather conditions.
+Winter Drop:
+There is a significant drop in the number of rides during winter for both groups.
+This suggests that colder weather and possibly snow or ice reduce bike usage.
+Consistent Member Usage:
+Annual members have higher usage than casual riders in all seasons except winter.
+This consistency indicates that annual members use bikes more regularly throughout the year, likely for commuting.
+Casual Riders:
+Casual riders show a more pronounced seasonal variation, with a sharp increase in summer and a steep decline in winter.
+This pattern suggests that casual riders are more influenced by seasonal weather changes and use bikes more for leisure.
+Conclusion
+The chart highlights the impact of seasonal changes on bike usage, with summer being the peak season and winter showing the lowest usage. Annual members exhibit more consistent usage across seasons, while casual riders are more affected by weather conditions. This information can help in planning bike availability and maintenance schedules throughout the year.
+
+### Rideable Type Analysis
+#### Count of Rides by Bike Type and User Type
+```{r}
+# Group data by rideable type and member type
+rideable_type_usage <- cyclistic_df_analysis %>%
+  group_by(rideable_type, member_casual) %>%
+  summarise(total_rides = n(), .groups = 'drop')
+
+# Plot the usage patterns by rideable type
+ggplot(rideable_type_usage, aes(x = rideable_type, y = total_rides, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Usage by Bike Type and User Type", x = "Bike Type", y = "Total Rides") +
+  theme_minimal()
+
+```
+#### Average Ride Duration by Bike Type and User Type
+```{r}
+# Calculate average ride duration by rideable type and member type
+avg_ride_duration <- cyclistic_df_analysis %>%
+  group_by(rideable_type, member_casual) %>%
+  summarise(avg_duration = mean(ride_duration, na.rm = TRUE), .groups = 'drop')
+
+# Plot the average ride duration by rideable type
+ggplot(avg_ride_duration, aes(x = rideable_type, y = avg_duration, fill = member_casual)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Average Ride Duration by Bike Type and User Type", x = "Bike Type", y = "Average Duration (minutes)") +
+  theme_minimal()
+
+```
+#### Interpretation of the Graphs
+1. Usage by Bike Type and User Type
+Classic Bikes:
+Members: Significantly higher usage compared to casual riders.
+Casual Riders: Lower usage but still substantial.
+Electric Bikes:
+Members: High usage, though slightly less than classic bikes.
+Casual Riders: Moderate usage, higher than classic bikes.
+Electric Scooters:
+Both Groups: Very low usage compared to bikes, indicating less popularity.
+2. Average Ride Duration by Bike Type and User Type
+Classic Bikes:
+Casual Riders: Longest average ride duration, around 25 minutes.
+Members: Shorter average duration, around 15 minutes.
+Electric Bikes:
+Casual Riders: Average duration around 20 minutes.
+Members: Shorter average duration, around 12 minutes.
+Electric Scooters:
+Casual Riders: Average duration around 15 minutes.
+Members: Shortest average duration, around 10 minutes.
+Relating the Graphs
+Usage Patterns:
+Members prefer classic and electric bikes for frequent, shorter rides, likely for commuting.
+Casual riders use all bike types for longer, less frequent rides, indicating leisure use.
+Operational Insights:
+Ensure a higher availability of classic and electric bikes for members.
+Maintain a balanced supply of all bike types for casual riders, especially in tourist areas.
+Marketing Strategies:
+Promote membership benefits for frequent commuters.
+Offer special deals on longer rides for casual users, highlighting leisure and exploration opportunities.
+
+## Recommendations
+Based on the data and interpretations from the charts, here are some targeted recommendations for the marketing team to convert casual riders to annual members: 
+
+### Promote Membership Benefits During Peak Seasons
+
+Summer Campaigns: Since both casual and annual members have the highest usage in summer, launch aggressive marketing campaigns during this season. Highlight the benefits of annual membership, such as unlimited rides, cost savings, and convenience.
+
+Winter Incentives: Offer special winter promotions to encourage casual riders to become members. Emphasize the value of having a membership even during off-peak seasons with benefits like free or discounted rides.
+
+### Leverage Popular Start and End Stations
+
+Tourist Spots: Since casual riders frequently use bikes at tourist attractions, place promotional materials and membership sign-up kiosks at these locations. Offer special deals for tourists who sign up for annual memberships.
+
+Commuter Hubs: Target marketing efforts at popular start and end stations for annual members, such as business districts and transit hubs. Highlight the convenience and cost-effectiveness of using bikes for daily commutes.
+
+### Highlight Cost Savings and Convenience
+
+Cost Comparison: Create clear, compelling comparisons showing the cost savings of annual memberships versus pay-per-ride options. Use real data to demonstrate how much casual riders could save by switching to an annual membership.
+
+Convenience: Emphasize the convenience of annual memberships, such as not having to worry about payment each time they ride and having access to bikes anytime.
+
+### Seasonal Promotions and Discounts
+
+Weekend Specials: Since casual riders are more active on weekends, run special promotions and discounts on annual memberships during these times. Offer limited-time discounts to create a sense of urgency.
+
+Referral Programs: Implement referral programs where current members can earn rewards for bringing in new annual members. This can leverage the existing member base to attract more casual riders.
+
+### Personalized Marketing
+
+Targeted Emails: Use data analytics to identify frequent casual riders and send them personalized emails highlighting the benefits of annual memberships. Include special offers and testimonials from current members.
+
+Social Media Campaigns: Run targeted social media ads focusing on casual riders, showcasing the benefits of annual memberships through engaging content, videos, and user stories.
+
+### Improved User Experience
+
+App Integration: Enhance the mobile app experience by making it easy for casual riders to upgrade to annual memberships. Include features like ride history, cost savings calculators, and easy sign-up processes.
+
+Customer Support: Provide excellent customer support to address any questions or concerns casual riders might have about switching to an annual membership. Offer live chat support and detailed FAQs.
+
+### Conclusion
+By focusing on these strategies, the marketing team can effectively convert casual riders to annual members, leveraging data-driven insights to tailor their approach. This will not only increase membership but also enhance user satisfaction and loyalty.
+
