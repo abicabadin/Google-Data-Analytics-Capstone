@@ -61,4 +61,4 @@ Future work could include:
 - Implementing machine learning models to predict user behavior
 
 ## Acknowledgements
-I would like to thank the Google Data Analytics team for providing the resources and guidance for this project. Special thanks to the Divvy Bike Share System and the City of Chicago for making the data available.
+I would like to thank the Google Data Analytics team for providing the resources and guidance for this project. Special thanks to the Divvy Bike Share System for making the data available.
