@@ -1,5 +1,3 @@
-# Google Data Analytics Capstone Project
-
 ## Project Overview
 This project is part of the Google Data Analytics Professional Certificate. The goal of this capstone project is to analyze bike-share usage patterns and develop user conversion strategies.
 
