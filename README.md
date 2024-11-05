@@ -12,6 +12,7 @@ This project is part of the Google Data Analytics Professional Certificate. The 
 - [Conclusion](#conclusion)
 - [Future Work](#future-work)
 - [Acknowledgements](#acknowledgements)
+- [Links](#links)
 
 ## Introduction
 The purpose of this project is to analyze bike-share data to uncover usage patterns and provide insights that can help improve user conversion strategies. The analysis focuses on understanding user behavior, identifying trends, and making data-driven recommendations.
@@ -19,15 +20,16 @@ The purpose of this project is to analyze bike-share data to uncover usage patte
 ## Data Sources
 The data used in this project comes from the following sources:
 - [Divvy Bike Share System Data](https://www.divvybikes.com/system-data)
-  
+- [City of Chicago Data Portal](https://data.cityofchicago.org/)
+
 ## Tools and Technologies
 The following tools and technologies were used in this project:
-- R / R Studio
+- R studio
 - dplyr
 - ggplot2
 - tidyr
 - lubridate
-- RStudio
+- Tableau
 
 ## Data Cleaning and Preparation
 The data cleaning and preparation process involved the following steps:
@@ -61,4 +63,10 @@ Future work could include:
 - Implementing machine learning models to predict user behavior
 
 ## Acknowledgements
-I would like to thank the Google Data Analytics team for providing the resources and guidance for this project. Special thanks to the Divvy Bike Share System for making the data available.
+I would like to thank the Google Data Analytics team for providing the resources and guidance for this project. Special thanks to the Divvy Bike Share System and the City of Chicago for making the data available.
+
+## Links
+- [Tableau Dashboard](https://public.tableau.com/views/GoogleDataAnalytics_17305898004570/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+- [GitHub Pages](https://abicabadin.github.io/cyclistic-analysis-project/)
+- [Final Case Study Codes](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/Final%20Case%20Study%20Codes.R)
+- [Final Analysis Code for Tableau](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/FinalAnalysisCodeforTableau.R)
