@@ -14,6 +14,7 @@ This project is part of the Google Data Analytics Professional Certificate. The 
 - [Process](#process)
 - [Data Cleaning and Preparation](#data-cleaning-and-preparation)
 - [Analysis of Data Using R](#analysis-of-data-using-r)
+- [Tableau Dashboard](#tableau-dashboard)
 - [Recommendations and Conclusion](#recommendations-and-conclusion)
 - [Future Work](#future-work)
 - [Acknowledgements](#acknowledgements)
@@ -117,6 +118,20 @@ By leveraging R for data analysis and Tableau for visualization, I was able to e
 
 8. **Rideable Type Analysis**:
    - I analyzed the rides by bike type and user type, as well as the average ride duration by rideable type and member type. These results were also plotted on a bar graph using `ggplot2`.
+
+### R Markdown Analysis
+
+I created an R Markdown (RMD) HTML file of the analysis that I conducted using R Studio. This file provides a comprehensive overview of the data analysis, and visualization processes. You can view the detailed analysis [here](https://abicabadin.github.io/cyclistic-analysis-project/).
+
+## Tableau Dashboard
+
+![Dashboard](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/Dashboard%201.png)
+
+As part of the Google Data Analytics Professional Certificate course, I also learned Tableau and wanted to practice more with visualizing the data. I created dashboards to enhance my data visualization skills.
+
+You can view my actual Tableau dashboard [here](https://public.tableau.com/views/GoogleDataAnalytics_17305898004570/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link).
+
+I created a separate R code for the Tableau visualization, which you can find [here](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/FinalAnalysisCodeforTableau.R).
 
 ## Recommendations and Conclusion
 
