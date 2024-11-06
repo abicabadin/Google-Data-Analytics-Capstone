@@ -21,7 +21,8 @@ This project is part of the Google Data Analytics Professional Certificate. The 
 
 ## Introduction
 
-![Cyclistic Logo](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/cyclistic.jpeg)
+![Cyclistic Logo](https://raw.githubusercontent.com/abicabadin/Google-Data-Analytics-Capstone/main/cyclistic.jpeg)
+
 
 Cyclistic, a bike-share company based in Chicago, has grown significantly since its launch in 2016. With a fleet of over 5,800 bicycles and 600 docking stations, Cyclistic offers a variety of bikes, including traditional two-wheelers, reclining bikes, hand tricycles, and cargo bikes, making the service inclusive for people with disabilities. The company's marketing strategy has primarily focused on building general awareness and appealing to broad consumer segments through flexible pricing plans, including single-ride passes, full-day passes, and annual memberships.
 
@@ -125,7 +126,7 @@ I created an R Markdown (RMD) HTML file of the analysis that I conducted using R
 
 ## Tableau Dashboard
 
-![Dashboard](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/Dashboard%201.png)
+![Dashboard](https://raw.githubusercontent.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/Dashboard%201.png)
 
 As part of the Google Data Analytics Professional Certificate course, I also learned Tableau and wanted to practice more with visualizing the data. I created dashboards to enhance my data visualization skills.
 
