@@ -126,7 +126,7 @@ I created an R Markdown (RMD) HTML file of the analysis that I conducted using R
 
 ## Tableau Dashboard
 
-![Dashboard](https://raw.githubusercontent.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/Dashboard%201.png)
+![Dashboard](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/Dashboard%201.png)
 
 As part of the Google Data Analytics Professional Certificate course, I also learned Tableau and wanted to practice more with visualizing the data. I created dashboards to enhance my data visualization skills.
 
