@@ -122,7 +122,7 @@ By leveraging R for data analysis and Tableau for visualization, I was able to e
 
 ### R Markdown Analysis
 
-I created an R Markdown (RMD) HTML file of the analysis that I conducted using R Studio. This file provides a comprehensive overview of the data analysis, and visualization processes. You can view the detailed analysis [here](https://abicabadin.github.io/cyclistic-analysis-project/).
+I created an R Markdown (RMD) HTML file of the analysis that I conducted using R Studio. This file provides a comprehensive overview of the data analysis, and visualization processes. You can view the detailed analysis [here](https://abigailcabadin.github.io/cyclistic-analysis-project/).
 
 ## Tableau Dashboard
 
