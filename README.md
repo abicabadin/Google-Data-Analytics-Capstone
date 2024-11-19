@@ -3,7 +3,7 @@
 This project is part of the Google Data Analytics Professional Certificate. The goal of this capstone project is to analyze bike-share usage patterns and develop user conversion strategies. I will discuss the background of the project, the full process of cleaning, analyzing, and visualizing the data, along with my final recommendations and the summary of data.
 
 ## Quick Links
-- [Final Analysis RMD file](https://abicabadin.github.io/cyclistic-analysis-project/)
+- [Final Analysis RMD file](https://abigailcabadin.github.io/cyclistic-analysis-project/)
 - [Final Case Study Codes](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/Final%20Case%20Study%20Codes.R)
 - [Final Analysis Code for Tableau](https://github.com/abicabadin/Google-Data-Analytics-Capstone/blob/main/FinalAnalysisCodeforTableau.R)
 - [Tableau Dashboard](https://public.tableau.com/views/GoogleDataAnalytics_17305898004570/Dashboard1?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
